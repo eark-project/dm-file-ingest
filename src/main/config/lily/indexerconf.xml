@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<indexer xmlns:b="org.eu.eark">
+  <recordFilter>
+    <includes>
+      <include recordType="b:File" vtags="last"/>
+    </includes>
+  </recordFilter>
+
+  <fields>
+    <field name="path" value="b:path"/>
+    <field name="size" value="b:size"/>
+    <field name="content" value="b:content" extractContent="true"/>
+  </fields>
+
+</indexer>

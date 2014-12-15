@@ -1,0 +1,32 @@
+{
+  namespaces: {
+    "org.eu.eark": "p"
+  },
+  fieldTypes: [
+    {
+      name: "p$path",
+      valueType: "STRING",
+      scope: "non_versioned"
+    },
+    {
+      name: "p$size",
+      valueType: "LONG",
+      scope: "non_versioned"
+    },
+    {
+      name: "p$content",
+      valueType: "BLOB",
+      scope: "non_versioned"
+    }
+  ],
+  recordTypes: [
+    {
+      name: "p$File",
+      fields: [
+        {name: "p$path", mandatory: true},
+        {name: "p$size", mandatory: true},
+        {name: "p$content", mandatory: false}
+      ]
+    }
+  ]
+}
