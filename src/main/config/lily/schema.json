@@ -9,6 +9,11 @@
       scope: "non_versioned"
     },
     {
+      name: "p$contentType",
+      valueType: "STRING",
+      scope: "non_versioned"
+    },
+    {
       name: "p$size",
       valueType: "LONG",
       scope: "non_versioned"
@@ -24,6 +29,7 @@
       name: "p$File",
       fields: [
         {name: "p$path", mandatory: true},
+        {name: "p$contentType", mandatory: false},
         {name: "p$size", mandatory: true},
         {name: "p$content", mandatory: false}
       ]

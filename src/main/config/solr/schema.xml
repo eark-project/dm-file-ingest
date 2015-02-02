@@ -43,6 +43,7 @@
    <field name="lily.version" type="long" indexed="true" stored="true"/>
 
    <field name="path" type="text_general" indexed="true" stored="true" required="true"/>
+   <field name="contentType" type="text_general" indexed="true" stored="true" required="false"/>
    <field name="size" type="long" indexed="true" stored="true" required="true"/>
    <field name="content" type="text_general" indexed="true" stored="true" required="false"/>
  </fields>

@@ -9,6 +9,7 @@
 
   <fields>
     <field name="path" value="b:path"/>
+    <field name="contentType" value="b:contentType"/>
     <field name="size" value="b:size"/>
     <field name="content" value="b:content" extractContent="true"/>
   </fields>
