@@ -1,9 +1,80 @@
 
+body, html {
+  height: 100%;
+  overflow:hidden;
+  margin:0px;
+  padding:0px;
+}
+
+.results {
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+}
+
 .label {
-  width: 150px;
+  width: 200px;
   float: left;
 }
 
 .input {
-  width: 250px;
+  width: 300px;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+.content {
+  font-family:Arial, Helvetica, sans-serif;
+  font-size: 130%;
+  width: 80%;
+  height: 100%;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+}
+
+.logos {
+  position: absolute;
+  bottom: 40px;
+  width: 90%;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+}
+
+.half, .box {
+  width: 50%;
+  float: left;
+}
+
+.box {
+  height: 70%;
+}
+
+form, .output {
+  padding: 40px;
+  width: 95%;
+  background-color: #dddddd;
+  border-radius: 10px;
+}
+
+.output {
+  float: right;
+}
+
+input, select {
+  font-size: 20px;
+}
+
+.logo {
+  left: 0px;
+  right: 0px;
+  height: 86px;
+  display: block;
+  margin: auto;
 }

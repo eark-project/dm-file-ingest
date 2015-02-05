@@ -2,16 +2,28 @@ var blobField = 'content';
 var titleField = 'path';
 var bytesField = 'size';
 var typeField = 'contentType';
+var rows = 20;
 
 function callback(data) {
   var lilyEndpoint = 'http://localhost:12060/repository/record/';
   var lilyNamespace = 'org.eu.eark';
   
-  var resultMessage = data.response.numFound + ' result';
-  if (data.response.numFound != 1)
+  var results = data.response.numFound;
+  var resultMessage = results + ' result';
+  if (results != 1)
     resultMessage += 's';
   resultMessage += ' found';
-  document.getElementById('output').innerHTML = resultMessage;
+  
+  var pages = '';
+  if (results > rows) {
+    for (p = 1; (p - 1) * rows < results; p++) {
+      var start = (p - 1) * rows;
+      if (start == data.response.start)
+        pages += p + ' ';
+      else
+        pages += '<a href="javascript:;" onclick="askSolr(' + start + ')">' + p + '</a> ';
+    }
+  }
   
   var searchResults = '';
   for (doc of data.response.docs) {
@@ -26,13 +38,17 @@ function callback(data) {
       filesize = Math.floor(bytes / 1024) + ' kB';
     else
       filesize = Math.floor(bytes / (1024 * 1024)) + ' MB';
-    filesize = '[' + filesize + ']';
-    searchResults += '<li>' + link + ' ' + filesize + '</li>';
+    searchResults += '<tr><td>' + link + '</td><td>' + filesize + '</td></tr>';
   }
-  document.getElementById('output').innerHTML += '<ul>' + searchResults + '</ul>';
+  
+  resultMessage = '<div class="results">' + resultMessage + '</div>';
+  pages = '<div class="results">' + pages + '</div>';
+  
+  document.getElementById('output').innerHTML = resultMessage +
+      pages + '<table>' + searchResults + '</table>';
 }
 
-function askSolr() {
+function askSolr(start) {
   var solrEndpoint = 'http://localhost:8983/solr/collection1/';
   var queryString = document.forms.find.queryString.value;
   var blobQuery = '';
@@ -78,6 +94,6 @@ function askSolr() {
   
   var script = document.createElement('script');
   script.src = solrEndpoint + 'select?q=' + encodeURIComponent(query) +
-      sortParameter + '&rows=20&wt=json&json.wrf=callback';
+      sortParameter + '&start=' + start + '&rows=' + rows + '&wt=json&json.wrf=callback';
   document.getElementsByTagName('head')[0].appendChild(script);
 }
