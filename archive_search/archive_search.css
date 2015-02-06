@@ -47,13 +47,9 @@ table {
   margin: auto;
 }
 
-.half, .box {
+.half, .left-box, .right-box {
   width: 50%;
   float: left;
-}
-
-.box {
-  height: 70%;
 }
 
 form, .output {

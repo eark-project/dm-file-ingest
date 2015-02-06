@@ -11,25 +11,25 @@
 <body>
   <div class="content">
     <h1>Find in Files</h1>
-    <div class="box">
+    <div class="left-box">
       <form name="find">
         <div>
           <div class="label">
             <label for="queryString">contained word</label>
           </div>
-          <input class="input" type="text" name="queryString">
+          <input id="queryString" class="input" type="text" name="queryString">
         </div>
         <div>
           <div class="label">
             <label for="package">package</label>
           </div>
-          <input class="input" type="text" name="package">
+          <input id="package" class="input" type="text" name="package">
         </div>
         <div>
           <div class="label">
             <label for="contentTypes">content type</label>
           </div>
-          <select class="input" name="contentTypes" size="8" multiple>
+          <select id="contentTypes" class="input" name="contentTypes" size="8" multiple>
             <option value="text/csv">csv</option>
             <option value="application/msword">doc</option>
             <option value="text/html">html</option>
@@ -44,7 +44,7 @@
           <div class="label">
             <label for="sort">sort</label>
           </div>
-          <select class="input" name="sort">
+          <select id="sort" class="input" name="sort">
             <option value="">relevance</option>
             <option value="size asc">size (ascending)</option>
             <option value="size desc">size (descending)</option>
@@ -53,7 +53,7 @@
         <input type="button" value="Search" onclick="askSolr(0)">
       </form>
     </div>
-    <div class="box">
+    <div class="right-box">
       <div id="output" class="output"></div>
     </div>
   </div>

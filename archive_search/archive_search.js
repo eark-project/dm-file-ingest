@@ -16,7 +16,7 @@ function callback(data) {
   
   var pages = '';
   if (results > rows) {
-    for (p = 1; (p - 1) * rows < results; p++) {
+    for (p = 1; p <= 20 && (p - 1) * rows < results; p++) {
       var start = (p - 1) * rows;
       if (start == data.response.start)
         pages += p + ' ';
