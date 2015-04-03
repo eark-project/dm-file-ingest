@@ -1,5 +1,6 @@
 package org.eu.eark.fileingest;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -53,9 +54,11 @@ public class FileIngestMapper extends Mapper<Text, Text, Text, Text> {
 		String pathString = key.toString();
 		
 		Path path = new Path(pathString);
-		try (FileSystem fileSystem = FileSystem.get(new URI(pathString), context.getConfiguration())) {
-			
-			LTable table = repository.getDefaultTable();
+		Configuration conf = context.getConfiguration();
+		try (FileSystem fileSystem = FileSystem.get(new URI(pathString), conf)) {
+			String tableName = conf.get(FileIngestJob.TABLE_NAME);
+			LTable table = tableName == null ?
+					repository.getDefaultTable() : repository.getTable(tableName);
 			String idPath = Utils.relativePath(pathString);
 			RecordId id = repository.getIdGenerator().newRecordId(idPath);
 			Record record = table.newRecord(id);
