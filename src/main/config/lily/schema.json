@@ -1,37 +1,43 @@
 {
   namespaces: {
-    "org.eu.eark": "p"
+    "org.eu.eark": "eark"
   },
   fieldTypes: [
     {
-      name: "p$path",
+      name: "eark$path",
       valueType: "STRING",
       scope: "non_versioned"
     },
     {
-      name: "p$contentType",
+      name: "eark$contentType",
       valueType: "STRING",
       scope: "non_versioned"
     },
     {
-      name: "p$size",
+      name: "eark$size",
       valueType: "LONG",
       scope: "non_versioned"
     },
     {
-      name: "p$content",
+      name: "eark$confidential",
+      valueType: "BOOLEAN",
+      scope: "non_versioned"
+    },
+    {
+      name: "eark$content",
       valueType: "BLOB",
       scope: "non_versioned"
     }
   ],
   recordTypes: [
     {
-      name: "p$File",
+      name: "eark$File",
       fields: [
-        {name: "p$path", mandatory: true},
-        {name: "p$contentType", mandatory: false},
-        {name: "p$size", mandatory: true},
-        {name: "p$content", mandatory: false}
+        {name: "eark$path", mandatory: true},
+        {name: "eark$contentType", mandatory: false},
+        {name: "eark$size", mandatory: true},
+        {name: "eark$confidential", mandatory: true},
+        {name: "eark$content", mandatory: true}
       ]
     }
   ]

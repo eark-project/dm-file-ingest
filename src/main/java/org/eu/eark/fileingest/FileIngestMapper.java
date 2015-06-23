@@ -1,10 +1,7 @@
 package org.eu.eark.fileingest;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FSDataInputStream;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IOUtils;
+import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.tika.Tika;
@@ -17,17 +14,17 @@ import org.lilyproject.repository.api.LTable;
 import org.lilyproject.repository.api.QName;
 import org.lilyproject.repository.api.Record;
 import org.lilyproject.repository.api.RecordId;
+import org.lilyproject.repository.api.RecordNotFoundException;
 import org.lilyproject.repository.api.RepositoryException;
 import org.lilyproject.util.io.Closer;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URI;
 
 /**
  * reads a file and stores the content in lily
  */
-public class FileIngestMapper extends Mapper<Text, Text, Text, Text> {
+public class FileIngestMapper extends Mapper<Text, BytesWritable, Text, Text> {
 	private LilyClient lilyClient;
 	private LRepository repository;
 
@@ -49,23 +46,22 @@ public class FileIngestMapper extends Mapper<Text, Text, Text, Text> {
 	}
 	
 	@Override
-	protected void map(Text key, Text value, Context context) throws IOException, InterruptedException {
+	protected void map(Text key, BytesWritable value, Context context) throws IOException, InterruptedException {
 
-		String pathString = key.toString();
+		String idPath = key.toString();
+		byte[] data = value.getBytes();
 		
-		Path path = new Path(pathString);
 		Configuration conf = context.getConfiguration();
-		try (FileSystem fileSystem = FileSystem.get(new URI(pathString), conf)) {
+		try {
 			String tableName = conf.get(FileIngestJob.TABLE_NAME);
 			LTable table = tableName == null ?
 					repository.getDefaultTable() : repository.getTable(tableName);
-			String idPath = Utils.relativePath(pathString);
 			RecordId id = repository.getIdGenerator().newRecordId(idPath);
 			Record record = table.newRecord(id);
 			record.setRecordType(q("File"));
 			record.setField(q("path"), idPath);
 			
-			long size = fileSystem.getFileStatus(path).getLen();
+			long size = value.getLength();
 			record.setField(q("size"), size);
 			
 			String filename;
@@ -76,19 +72,22 @@ public class FileIngestMapper extends Mapper<Text, Text, Text, Text> {
 				filename = idPath;
 			}
 			
-			String contentType = "application/octet-stream";
-			try (FSDataInputStream fis = fileSystem.open(path)) {
-				contentType = new Tika().detect(fis, filename);
-			}
+			String contentType = new Tika().detect(data, filename);
 			record.setField(q("contentType"), contentType);
 			
-			try (FSDataInputStream fis = fileSystem.open(path)) {
-				Blob blob = new Blob(contentType, size, filename);
-				try (OutputStream os = table.getOutputStream(blob)) {
-					IOUtils.copyBytes(fis, os, 32 * 1024);
-				}
-				record.setField(q("content"), blob);
+			Blob blob = new Blob(contentType, size, filename);
+			try (OutputStream os = table.getOutputStream(blob)) {
+				os.write(data);
 			}
+			record.setField(q("content"), blob);
+			
+			Boolean confidential = true;
+			try {
+				Record existingRecord = table.read(id, q("confidential"));
+				confidential = existingRecord.<Boolean>getField(q("confidential"));
+			} catch (RecordNotFoundException e) {}
+			
+			record.setField(q("confidential"), confidential);
 			
 			table.createOrUpdate(record);
 			Indexer indexer = lilyClient.getIndexer();

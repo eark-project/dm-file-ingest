@@ -10,7 +10,6 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -18,6 +17,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.NullOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+import org.eu.eark.fileingest.input.TarFileInputFormat;
 import org.lilyproject.client.LilyClient;
 import org.lilyproject.mapreduce.LilyMapReduceUtil;
 import org.lilyproject.repository.api.TableManager;
@@ -56,8 +56,8 @@ public class FileIngestJob extends Configured implements Tool {
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
 
-		job.setInputFormatClass(FilenameInputFormat.class);
-		// The reducer writes directly to Lily, so for Hadoop there is no output to produce
+		job.setInputFormatClass(TarFileInputFormat.class);
+		// The mapper writes directly to Lily, so for Hadoop there is no output to produce
 		job.setOutputFormatClass(NullOutputFormat.class);
 
 		job.getConfiguration().set(LilyMapReduceUtil.ZK_CONNECT_STRING, zkConnectString);
@@ -69,8 +69,9 @@ public class FileIngestJob extends Configured implements Tool {
 				job.getConfiguration().set(TABLE_NAME, tableName);
 			}
 		}
-		Path[] inputPaths = Utils.getRecursivePaths(FileSystem.get(config), new Path("files"));
-		FileInputFormat.setInputPaths(job, inputPaths);
+		//Path[] inputPaths = Utils.getRecursivePaths(FileSystem.get(config), new Path("files"));
+		//FileInputFormat.setInputPaths(job, inputPaths);
+		FileInputFormat.addInputPath(job, new Path("files"));
 
 		// Launch the job
 		boolean b = job.waitForCompletion(true);

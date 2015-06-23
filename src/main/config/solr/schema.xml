@@ -28,6 +28,7 @@
     </fieldType>
    
     <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="boolean" class="solr.BoolField"/>
  </types>
 
 
@@ -45,6 +46,7 @@
    <field name="path" type="text_general" indexed="true" stored="true" required="true"/>
    <field name="contentType" type="text_general" indexed="true" stored="true" required="false"/>
    <field name="size" type="long" indexed="true" stored="true" required="true"/>
+   <field name="confidential" type="boolean" indexed="true" stored="true" required="true"/>
    <field name="content" type="text_general" indexed="true" stored="true" required="false"/>
  </fields>
 
