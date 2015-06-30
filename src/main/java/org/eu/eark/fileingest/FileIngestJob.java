@@ -11,6 +11,7 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -31,6 +32,7 @@ public class FileIngestJob extends Configured implements Tool {
 	private String zkConnectString;
 	public static final String TABLE_NAME = "tableName";
 	private String tableName;
+	private Path[] inputPaths;
 	
 	public static void main(String[] args) throws Exception {
 		// Let <code>ToolRunner</code> handle generic command-line options
@@ -49,6 +51,7 @@ public class FileIngestJob extends Configured implements Tool {
 
 		Job job = new Job(config, "FileIngestJob");
 		job.setJarByClass(FileIngestJob.class);
+		TableMapReduceUtil.addDependencyJars(job);
 
 		job.setMapperClass(FileIngestMapper.class);
 		job.setNumReduceTasks(0);
@@ -70,8 +73,8 @@ public class FileIngestJob extends Configured implements Tool {
 			}
 		}
 		//Path[] inputPaths = Utils.getRecursivePaths(FileSystem.get(config), new Path("files"));
-		//FileInputFormat.setInputPaths(job, inputPaths);
-		FileInputFormat.addInputPath(job, new Path("files"));
+		FileInputFormat.setInputPaths(job, inputPaths);
+		//FileInputFormat.addInputPath(job, new Path("files"));
 
 		// Launch the job
 		boolean b = job.waitForCompletion(true);
@@ -95,6 +98,11 @@ public class FileIngestJob extends Configured implements Tool {
 				.withDescription("ZooKeeper connection string: hostname1:port,hostname2:port,...")
 				.withLongOpt("zookeeper").create("z");
 		cliOptions.addOption(zkOption);
+		
+		Option inputPathOption = OptionBuilder.isRequired().withArgName("input paths").hasArg()
+				.withDescription("Input paths for the map-reduce job: file1,file2,dirWithoutSubdirs,...")
+				.withLongOpt("input").create("i");
+		cliOptions.addOption(inputPathOption);
 
 		CommandLineParser parser = new PosixParser();
 		CommandLine cmd;
@@ -111,6 +119,11 @@ public class FileIngestJob extends Configured implements Tool {
 
 		tableName = cmd.getOptionValue(tableOption.getOpt());
 		zkConnectString = cmd.getOptionValue(zkOption.getOpt());
+		
+		String[] pathnames = cmd.getOptionValue(inputPathOption.getOpt()).split(",");
+		inputPaths = new Path[pathnames.length];
+		for (int i = 0; i < pathnames.length; i++)
+			inputPaths[i] = new Path(pathnames[i]);
 
 		return 0;
 	}
