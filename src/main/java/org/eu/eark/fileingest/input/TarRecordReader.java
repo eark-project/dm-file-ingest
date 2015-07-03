@@ -2,6 +2,8 @@ package org.eu.eark.fileingest.input;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
@@ -24,7 +26,16 @@ public class TarRecordReader extends RecordReader<Text, BytesWritable> {
 	private BytesWritable value;
 	private long pos;
 	private long end;
+	private List<String> nameFilter;
 	
+	public TarRecordReader() {
+		nameFilter = new ArrayList<String>();
+	}
+	
+	public TarRecordReader(List<String> nameFilter) {
+		this.nameFilter = nameFilter;
+	}
+
 	@Override
 	public void initialize(InputSplit genericSplit, TaskAttemptContext context) throws IOException, InterruptedException {
 		FileSplit split = (FileSplit) genericSplit;
@@ -67,13 +78,20 @@ public class TarRecordReader extends RecordReader<Text, BytesWritable> {
 			entry = in.getNextTarEntry();
 			if (entry == null)
 				return false;
-		} while (!entry.isFile());
+		} while (!entry.isFile() || filterApplies(entry.getName()));
 		key.set(entry.getName());
 		byte[] b = new byte[(int) entry.getSize()];
 		in.read(b);
 		value = new BytesWritable(b);
 		pos += entry.getSize();
 		return true;
+	}
+
+	private boolean filterApplies(String name) {
+		for (String filterEntry : nameFilter)
+			if (name.matches(filterEntry))
+				return true;
+		return false;
 	}
 
 }

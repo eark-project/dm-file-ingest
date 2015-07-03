@@ -31,7 +31,9 @@ import java.io.IOException;
 public class FileIngestJob extends Configured implements Tool {
 	private String zkConnectString;
 	public static final String TABLE_NAME = "tableName";
+	public static final String FILENAME_FILTER = "filenameFilter";
 	private String tableName;
+	private String filenameFilter;
 	private Path[] inputPaths;
 	
 	public static void main(String[] args) throws Exception {
@@ -60,6 +62,9 @@ public class FileIngestJob extends Configured implements Tool {
 		job.setOutputValueClass(Text.class);
 
 		job.setInputFormatClass(TarFileInputFormat.class);
+		if (filenameFilter != null) {
+			job.getConfiguration().set(FILENAME_FILTER, filenameFilter);
+		}
 		// The mapper writes directly to Lily, so for Hadoop there is no output to produce
 		job.setOutputFormatClass(NullOutputFormat.class);
 
@@ -99,6 +104,11 @@ public class FileIngestJob extends Configured implements Tool {
 				.withLongOpt("zookeeper").create("z");
 		cliOptions.addOption(zkOption);
 		
+		Option filterOption = OptionBuilder.isRequired(false).withArgName("filename filter").hasArg()
+				.withDescription("Filter for filenames: .*\\.xsd;regex2;...")
+				.withLongOpt("filter").create("f");
+		cliOptions.addOption(filterOption);
+		
 		Option inputPathOption = OptionBuilder.isRequired().withArgName("input paths").hasArg()
 				.withDescription("Input paths for the map-reduce job: file1,file2,dirWithoutSubdirs,...")
 				.withLongOpt("input").create("i");
@@ -119,6 +129,7 @@ public class FileIngestJob extends Configured implements Tool {
 
 		tableName = cmd.getOptionValue(tableOption.getOpt());
 		zkConnectString = cmd.getOptionValue(zkOption.getOpt());
+		filenameFilter = cmd.getOptionValue(filterOption.getOpt());
 		
 		String[] pathnames = cmd.getOptionValue(inputPathOption.getOpt()).split(",");
 		inputPaths = new Path[pathnames.length];
