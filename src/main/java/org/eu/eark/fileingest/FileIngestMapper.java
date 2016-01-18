@@ -68,6 +68,9 @@ public class FileIngestMapper extends Mapper<Text, BytesWritable, Text, Text> {
 			if (idPath.contains("/")) {
 				String[] pathElements = idPath.split("/");
 				filename = pathElements[pathElements.length - 1];
+				/* test */
+                String pkg = "pack_"+pathElements[0];
+                record.setField(q("package"), pkg);
 			} else {
 				filename = idPath;
 			}
