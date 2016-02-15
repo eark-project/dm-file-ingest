@@ -27,6 +27,16 @@
       name: "eark$content",
       valueType: "BLOB",
       scope: "non_versioned"
+    },
+    {
+      name: "eark$package",
+      valueType: "STRING",
+      scope: "non_versioned"
+    },
+    {
+      name: "eark$textCategory",
+      valueType: "STRING",
+      scope: "non_versioned"
     }
   ],
   recordTypes: [
@@ -37,7 +47,9 @@
         {name: "eark$contentType", mandatory: false},
         {name: "eark$size", mandatory: true},
         {name: "eark$confidential", mandatory: true},
-        {name: "eark$content", mandatory: true}
+        {name: "eark$content", mandatory: true},
+        {name: "eark$package", mandatory: true},
+        {name: "eark$textCategory", mandatory: false}
       ]
     }
   ]

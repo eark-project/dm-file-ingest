@@ -48,6 +48,8 @@
    <field name="size" type="long" indexed="true" stored="true" required="true"/>
    <field name="confidential" type="boolean" indexed="true" stored="true" required="true"/>
    <field name="content" type="text_general" indexed="true" stored="true" required="false"/>
+   <field name="package" type="text_general" indexed="true" stored="true" required="false"/>
+   <field name="textCategory" type="text_general" indexed="true" stored="true" required="false"/>
  </fields>
 
  <uniqueKey>lily.key</uniqueKey>

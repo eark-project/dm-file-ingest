@@ -13,6 +13,8 @@
     <field name="size" value="eark:size"/>
     <field name="confidential" value="eark:confidential"/>
     <field name="content" value="eark:content" extractContent="true"/>
+    <field name="package" value="eark:package"/>
+    <field name="textCategory" value="eark:textCategory"/>
   </fields>
 
 </indexer>
