@@ -37,6 +37,51 @@
       name: "eark$textCategory",
       valueType: "STRING",
       scope: "non_versioned"
+    },
+    {
+      name: "eark$eadid_s",
+      valueType: "STRING",
+      scope: "non_versioned"
+    },
+    {
+      name: "eark$eadtitle_s",
+      valueType: "STRING",
+      scope: "non_versioned"
+    },
+    {
+      name: "eark$eaddate_s",
+      valueType: "STRING",
+      scope: "non_versioned"
+    },
+    {
+      name: "eark$eaddatestructuredfrom_dt",
+      valueType: "DATE",
+      scope: "non_versioned"
+    },
+    {
+      name: "eark$eaddatestructuredto_dt",
+      valueType: "DATE",
+      scope: "non_versioned"
+    },
+    {
+      name: "eark$eadorigination_s",
+      valueType: "STRING",
+      scope: "non_versioned"
+    },
+    {
+      name: "eark$eadabstract_t",
+      valueType: "STRING",
+      scope: "non_versioned"
+    },
+    {
+      name: "eark$eadaccessrestrict_s",
+      valueType: "STRING",
+      scope: "non_versioned"
+    },
+    {
+      name: "eark$eadclevel_s",
+      valueType: "STRING",
+      scope: "non_versioned"
     }
   ],
   recordTypes: [
@@ -49,7 +94,15 @@
         {name: "eark$confidential", mandatory: true},
         {name: "eark$content", mandatory: true},
         {name: "eark$package", mandatory: true},
-        {name: "eark$textCategory", mandatory: false}
+        {name: "eark$textCategory", mandatory: false},
+        {name: "eark$eadid_s", mandatory: false},
+        {name: "eark$eadtitle_s", mandatory: false},
+        {name: "eark$eaddatestructuredfrom_dt", mandatory: false},
+        {name: "eark$eaddatestructuredto_dt", mandatory: false},
+        {name: "eark$eadorigination_s", mandatory: false},
+        {name: "eark$eadabstract_t", mandatory: false},
+        {name: "eark$eadaccessrestrict_s", mandatory: false},
+        {name: "eark$eadclevel_s", mandatory: false}
       ]
     }
   ]

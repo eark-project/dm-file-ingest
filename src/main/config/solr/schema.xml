@@ -29,6 +29,7 @@
    
     <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
     <fieldType name="boolean" class="solr.BoolField"/>
+    <fieldType name="date" class="solr.TrieDateField" precisionStep="8" positionIncrementGap="0"/>
  </types>
 
 
@@ -50,6 +51,16 @@
    <field name="content" type="text_general" indexed="true" stored="true" required="false"/>
    <field name="package" type="text_general" indexed="true" stored="true" required="false"/>
    <field name="textCategory" type="text_general" indexed="true" stored="true" required="false"/>
+   
+   <field name="eadid_s" type="string" indexed="true" stored="true" required="false"/>
+   <field name="eadtitle_s" type="string" indexed="true" stored="true" required="false"/>
+   <field name="eaddate_s" type="string" indexed="true" stored="true" required="false"/>
+   <field name="eaddatestructuredfrom_dt" type="date" indexed="true" stored="true" required="false"/>
+   <field name="eaddatestructuredto_dt" type="date" indexed="true" stored="true" required="false"/>
+   <field name="eadorigination_s" type="string" indexed="true" stored="true" required="false"/>
+   <field name="eadabstract_s" type="text_general" indexed="true" stored="true" required="false"/>
+   <field name="eadaccessrestrict_s" type="string" indexed="true" stored="true" required="false"/>
+   <field name="eadclevel_s" type="string" indexed="true" stored="true" required="false"/>
  </fields>
 
  <uniqueKey>lily.key</uniqueKey>
