@@ -15,6 +15,7 @@
     <field name="content" value="eark:content" extractContent="true"/>
     <field name="package" value="eark:package"/>
     <field name="textCategory" value="eark:textCategory"/>
+    
     <field name="eadid_s" value="eark:eadid_s"/>
     <field name="eadtitle_s" value="eark:eadtitle_s"/>
     <field name="eaddate_s" value="eark:eaddate_s"/>
@@ -24,6 +25,10 @@
     <field name="eadabstract_t" value="eark:eadabstract_t"/>
     <field name="eadaccessrestrict_s" value="eark:eadaccessrestrict_s"/>
     <field name="eadclevel_s" value="eark:eadclevel_s"/>
+    
+    <field name="locations_ss" value="eark:locations_ss/>
+    <field name="persons_ss" value="eark:persons_ss/>
+    <field name="organisations_ss" value="eark:organisations_ss/>
   </fields>
 
 </indexer>

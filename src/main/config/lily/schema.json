@@ -82,6 +82,21 @@
       name: "eark$eadclevel_s",
       valueType: "STRING",
       scope: "non_versioned"
+    },
+    {
+      name: "eark$locations_ss",
+      valueType: "STRING",
+      scope: "non_versioned"
+    },
+    {
+      name: "eark$persons_ss",
+      valueType: "STRING",
+      scope: "non_versioned"
+    },
+    {
+      name: "eark$organisations_ss",
+      valueType: "STRING",
+      scope: "non_versioned"
     }
   ],
   recordTypes: [
@@ -102,7 +117,10 @@
         {name: "eark$eadorigination_s", mandatory: false},
         {name: "eark$eadabstract_t", mandatory: false},
         {name: "eark$eadaccessrestrict_s", mandatory: false},
-        {name: "eark$eadclevel_s", mandatory: false}
+        {name: "eark$eadclevel_s", mandatory: false},
+        {name: "eark$locations_ss", mandatory: false},
+        {name: "eark$persons_ss", mandatory: false},
+        {name: "eark$organisations_ss", mandatory: false}
       ]
     }
   ]

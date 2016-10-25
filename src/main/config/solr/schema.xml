@@ -61,6 +61,10 @@
    <field name="eadabstract_s" type="text_general" indexed="true" stored="true" required="false"/>
    <field name="eadaccessrestrict_s" type="string" indexed="true" stored="true" required="false"/>
    <field name="eadclevel_s" type="string" indexed="true" stored="true" required="false"/>
+   
+   <field name="locations_ss" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
+   <field name="persons_ss" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
+   <field name="organisations_ss" type="string" indexed="true" stored="true" required="false" multiValued="true"/>
  </fields>
 
  <uniqueKey>lily.key</uniqueKey>
