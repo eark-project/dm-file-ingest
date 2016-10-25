@@ -26,9 +26,9 @@
     <field name="eadaccessrestrict_s" value="eark:eadaccessrestrict_s"/>
     <field name="eadclevel_s" value="eark:eadclevel_s"/>
     
-    <field name="locations_ss" value="eark:locations_ss/>
-    <field name="persons_ss" value="eark:persons_ss/>
-    <field name="organisations_ss" value="eark:organisations_ss/>
+    <field name="locations_ss" value="eark:locations_ss"/>
+    <field name="persons_ss" value="eark:persons_ss"/>
+    <field name="organisations_ss" value="eark:organisations_ss"/>
   </fields>
 
 </indexer>
